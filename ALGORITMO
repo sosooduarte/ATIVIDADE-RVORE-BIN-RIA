@@ -1,1 +1,177 @@
+Algoritmo inserir(valor):
+    novo <- novo Nó
+    novo.item <- valor
+    novo.dir <- nulo
+    novo.esq <- nulo
+
+    se raiz é nula então
+        raiz <- novo
+    senão
+        atual <- raiz
+        enquanto verdadeiro faça
+            anterior <- atual
+            se valor <= atual.item então
+                atual <- atual.esq
+                se atual é nulo então
+                    anterior.esq <- novo
+                    retorne
+            senão
+                atual <- atual.dir
+                se atual é nulo então
+                    anterior.dir <- novo
+                    retorne
+            fim se
+        fim enquanto
+    fim se
+
+Algoritmo buscar(no, valor):
+    se no é nulo então
+        escreva("Valor não encontrado")
+        retorne
+    fim se
+
+    se valor == no.item então
+        escreva("Valor encontrado: " + no.item)
+    senão se valor < no.item então
+        buscar(no.esq, valor)
+    senão
+        buscar(no.dir, valor)
+
+Algoritmo exibirEmOrdem(no):
+    se no é nulo então retorne
+    exibirEmOrdem(no.esq)
+    escreva(no.item + " ")
+    exibirEmOrdem(no.dir)
+
+Algoritmo exibirPreOrdem(no):
+    se no é nulo então retorne
+    escreva(no.item + " ")
+    exibirPreOrdem(no.esq)
+    exibirPreOrdem(no.dir)
+
+Algoritmo exibirPosOrdem(no):
+    se no é nulo então retorne
+    exibirPosOrdem(no.esq)
+    exibirPosOrdem(no.dir)
+    escreva(no.item + " ")
+
+Algoritmo altura(no):
+    se no é nulo então retorne -1
+    h_esq <- altura(no.esq)
+    h_dir <- altura(no.dir)
+    se h_esq > h_dir então
+        retorne h_esq + 1
+    senão
+        retorne h_dir + 1
+
+Algoritmo contarNos(no):
+    se no é nulo então retorne 0
+    retorne 1 + contarNos(no.esq) + contarNos(no.dir)
+
+Algoritmo contarFolhas(no):
+    se no é nulo então retorne 0
+    se no.esq é nulo e no.dir é nulo então
+        retorne 1
+    retorne contarFolhas(no.esq) + contarFolhas(no.dir)
+
+Algoritmo encontrarMinimo(no):
+    atual <- no
+    enquanto atual.esq ≠ nulo faça
+        atual <- atual.esq
+    retorne atual.item
+
+Algoritmo encontrarMaximo(no):
+    atual <- no
+    enquanto atual.dir ≠ nulo faça
+        atual <- atual.dir
+    retorne atual.item
+
+Algoritmo remover(valor):
+    raiz <- removerRec(raiz, valor)
+
+Algoritmo removerRec(no, valor):
+    se no é nulo então retorne no
+
+    se valor < no.item então
+        no.esq <- removerRec(no.esq, valor)
+    senão se valor > no.item então
+        no.dir <- removerRec(no.dir, valor)
+    senão
+        se no.esq é nulo então
+            retorne no.dir
+        senão se no.dir é nulo então
+            retorne no.esq
+        temp <- encontrarMin(no.dir)
+        no.item <- temp.item
+        no.dir <- removerRec(no.dir, temp.item)
+    retorne no
+
+Algoritmo encontrarMin(no):
+    atual <- no
+    enquanto atual.esq ≠ nulo faça
+        atual <- atual.esq
+    retorne atual
+
+Algoritmo main():
+    arvore <- nova Tree()
+    leitor <- novo Scanner
+
+    faça:
+        escreva("1 - Inserir")
+        escreva("2 - Buscar")
+        escreva("3 - Exibir em ordem")
+        escreva("4 - Exibir pré-ordem")
+        escreva("5 - Exibir pós-ordem")
+        escreva("6 - Altura da árvore")
+        escreva("7 - Contar folhas")
+        escreva("8 - Contar nós")
+        escreva("9 - Encontrar menor valor")
+        escreva("10 - Encontrar maior valor")
+        escreva("11 - Remover valor")
+        escreva("12 - Sair")
+
+        escreva("Digite sua opção: ")
+        opcao <- leitor.lerInteiro()
+
+        escolha(opcao):
+            caso 1:
+                escreva("Digite valor: ")
+                v <- leitor.lerInteiro()
+                arvore.inserir(v)
+
+            caso 2:
+                escreva("Buscar valor: ")
+                v <- leitor.lerInteiro()
+                arvore.buscar(raiz, v)
+
+            caso 3:
+                arvore.exibirEmOrdem(raiz)
+
+            caso 4:
+                arvore.exibirPreOrdem(raiz)
+
+            caso 5:
+                arvore.exibirPosOrdem(raiz)
+
+            caso 6:
+                escreva("Altura: " + arvore.altura(raiz))
+
+            caso 7:
+                escreva("Número de folhas: " + arvore.contarFolhas(raiz))
+
+            caso 8:
+                escreva("Número total de nós: " + arvore.contarNos(raiz))
+
+            caso 9:
+                escreva("Menor valor: " + arvore.encontrarMinimo(raiz))
+
+            caso 10:
+                escreva("Maior valor: " + arvore.encontrarMaximo(raiz))
+
+            caso 11:
+                escreva("Valor a remover: ")
+                v <- leitor.lerInteiro()
+                arvore.remover(v)
+
+    enquanto opcao ≠ 12
 
